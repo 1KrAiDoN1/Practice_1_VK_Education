@@ -1,0 +1,106 @@
+Выдержки из сохранённого вывода реального запуска 08.10.2026.
+Повторяющиеся строки INFO Spark и хвост CSV Gold опущены.
+
+➜  p1-q16-m2 docker compose exec -T trino trino --file /work/sql/05_quality.sql
+docker compose run --rm tools verify
+
+Oct 08, 2026 8:42:53 PM org.jline.utils.Log logr
+WARNING: Unable to create a system terminal, creating a dumb terminal (enable debug logging for more information)
+"0"
+"0"
+"0"
+Gold полностью совпадает с исходным Q16: 18314 строк. Bronze: {'part': 200000, 'partsupp': 800000, 'supplier': 10000}.
+
+➜  p1-q16-m2 docker compose exec -T trino trino --file /work/sql/03_compression.sql
+
+
+Oct 08, 2026 8:46:37 PM org.jline.utils.Log logr
+WARNING: Unable to create a system terminal, creating a dumb terminal (enable debug logging for more information)
+CREATE SCHEMA
+CREATE SCHEMA
+SET SESSION
+CREATE TABLE: 200000 rows
+CREATE TABLE: 800000 rows
+CREATE TABLE: 10000 rows
+SET SESSION
+CREATE TABLE: 200000 rows
+CREATE TABLE: 800000 rows
+CREATE TABLE: 10000 rows
+➜  p1-q16-m2 docker compose run --rm tools benchmark --repeats 5
+
+
+GZIP, повтор 1: 0.6232 с
+ZSTD, повтор 1: 0.6395 с
+ZSTD, повтор 2: 0.6006 с
+GZIP, повтор 2: 0.5249 с
+GZIP, повтор 3: 0.5661 с
+ZSTD, повтор 3: 0.4761 с
+ZSTD, повтор 4: 0.6043 с
+GZIP, повтор 4: 0.4948 с
+GZIP, повтор 5: 0.5580 с
+ZSTD, повтор 5: 0.5600 с
+Сводка:
+GZIP: медиана 0.5580 с, активные данные 29.45 MiB.
+ZSTD: медиана 0.6006 с, активные данные 32.47 MiB.
+➜  p1-q16-m2 docker compose run --rm tools snapshots
+
+
+{
+  "table": "silver.sf1.snapshot_demo_20261008205147",
+  "snapshot_id": 4739065683946159628,
+  "count_before": 20,
+  "count_after_delete": 0,
+  "count_from_historical_snapshot": 20,
+  "count_after_restore": 20,
+  "nullable_column": "source_note"
+}
+➜  p1-q16-m2 docker compose stop trino
+docker compose run --rm spark
+[+] Stopping 1/1
+
+Выдержка из сохранённого вывода запуска Spark
+Источник: artifacts/terminal_session.txt
+
+Bronze part: 200000 строк
+Bronze partsupp: 800000 строк
+Bronze supplier: 10000 строк
+
++-------+--------+-----------------------+----+
+|partkey|brand   |type                   |size|
++-------+--------+-----------------------+----+
+|50001  |Brand#51|ECONOMY POLISHED STEEL |39  |
+|50002  |Brand#25|PROMO ANODIZED BRASS   |41  |
+|50003  |Brand#42|SMALL BRUSHED TIN      |45  |
+|50004  |Brand#11|MEDIUM BRUSHED BRASS   |21  |
+|50005  |Brand#55|STANDARD PLATED STEEL  |29  |
+|50006  |Brand#14|STANDARD POLISHED BRASS|25  |
+|50007  |Brand#24|LARGE PLATED BRASS     |15  |
+|50008  |Brand#22|MEDIUM ANODIZED COPPER |20  |
+|50009  |Brand#14|PROMO POLISHED BRASS   |36  |
+|50010  |Brand#11|MEDIUM BURNISHED BRASS |30  |
++-------+--------+-----------------------+----+
+only showing top 10 rows
+
+{
+  "scale": "sf1",
+  "source": "bronze.sf1",
+  "counts": {
+    "part": 200000,
+    "partsupp": 800000,
+    "supplier": 10000
+  },
+  "q16_seconds_without_spark_startup": 2.2261590009998145,
+  "result_rows": 18314,
+  "matches_trino": true
+}
+26/10/08 20:58:37 INFO SparkContext: SparkContext is stopping with exitCode 0.
+➜  p1-q16-m2 docker compose start trino
+
+
+[+] Running 5/5
+ ✔ Container p1q16-postgres-1    Healthy                                                                                                                                                                                              0.5s
+ ✔ Container p1q16-minio-init-1  Exited                                                                                                                                                                                               1.1s
+ ✔ Container p1q16-migrate-1     Exited                                                                                                                                                                                               0.6s
+ ✔ Container p1q16-lakekeeper-1  Healthy                                                                                                                                                                                              0.5s
+ ✔ Container p1q16-trino-1       Started                                                                                                                                                                                              0.1s
+➜  p1-q16-m2

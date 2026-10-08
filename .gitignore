@@ -1,0 +1,13 @@
+# Downloaded dependencies and Python caches
+jars/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Temporary files and verbose logs
+work/
+artifacts/*.log
+
+# Rebuilt by tools prepare / verify; not report evidence
+artifacts/sf1/selected_scale.json
+artifacts/sf1/q16_expected.json

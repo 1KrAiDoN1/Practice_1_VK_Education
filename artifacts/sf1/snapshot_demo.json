@@ -1,0 +1,9 @@
+{
+  "table": "silver.sf1.snapshot_demo_20261008205147",
+  "snapshot_id": 4739065683946159628,
+  "count_before": 20,
+  "count_after_delete": 0,
+  "count_from_historical_snapshot": 20,
+  "count_after_restore": 20,
+  "nullable_column": "source_note"
+}

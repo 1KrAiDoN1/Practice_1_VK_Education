@@ -1,0 +1,43 @@
+{
+  "scale": "sf1",
+  "unit": "MiB = 1048576 bytes",
+  "scope": "Current snapshot, data files only, content=0",
+  "query_id": "20261008_211016_00000_qm5zf",
+  "tables": [
+    {
+      "table_name": "bronze.sf1.part",
+      "data_files": 1,
+      "records_in_files": 200000,
+      "active_data_bytes": 4318119,
+      "active_data_mib": 4.11807918548584
+    },
+    {
+      "table_name": "bronze.sf1.partsupp",
+      "data_files": 2,
+      "records_in_files": 800000,
+      "active_data_bytes": 29203978,
+      "active_data_mib": 27.851083755493164
+    },
+    {
+      "table_name": "bronze.sf1.supplier",
+      "data_files": 1,
+      "records_in_files": 10000,
+      "active_data_bytes": 533907,
+      "active_data_mib": 0.5091733932495117
+    },
+    {
+      "table_name": "gold.sf1.q16_supplier_counts",
+      "data_files": 1,
+      "records_in_files": 18314,
+      "active_data_bytes": 41042,
+      "active_data_mib": 0.03914070129394531
+    },
+    {
+      "table_name": "silver.sf1.part_supplier_clean",
+      "data_files": 1,
+      "records_in_files": 118274,
+      "active_data_bytes": 561751,
+      "active_data_mib": 0.5357275009155273
+    }
+  ]
+}

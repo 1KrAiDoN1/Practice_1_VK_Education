@@ -1,0 +1,1 @@
+ALTER TABLE silver.sf1.snapshot_demo_20261008205147 EXECUTE rollback_to_snapshot(4739065683946159628);

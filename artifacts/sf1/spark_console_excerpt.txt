@@ -1,0 +1,22 @@
+Выдержка из сохранённого вывода запуска Spark
+Источник: artifacts/terminal_session.txt
+
+Bronze part: 200000 строк
+Bronze partsupp: 800000 строк
+Bronze supplier: 10000 строк
+
++-------+--------+-----------------------+----+
+|partkey|brand   |type                   |size|
++-------+--------+-----------------------+----+
+|50001  |Brand#51|ECONOMY POLISHED STEEL |39  |
+|50002  |Brand#25|PROMO ANODIZED BRASS   |41  |
+|50003  |Brand#42|SMALL BRUSHED TIN      |45  |
+|50004  |Brand#11|MEDIUM BRUSHED BRASS   |21  |
+|50005  |Brand#55|STANDARD PLATED STEEL  |29  |
+|50006  |Brand#14|STANDARD POLISHED BRASS|25  |
+|50007  |Brand#24|LARGE PLATED BRASS     |15  |
+|50008  |Brand#22|MEDIUM ANODIZED COPPER |20  |
+|50009  |Brand#14|PROMO POLISHED BRASS   |36  |
+|50010  |Brand#11|MEDIUM BURNISHED BRASS |30  |
++-------+--------+-----------------------+----+
+only showing top 10 rows

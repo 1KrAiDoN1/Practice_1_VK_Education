@@ -1,0 +1,193 @@
+{
+  "scale": "sf1",
+  "identity": "Васильев Павел Александрович",
+  "tables": [
+    {
+      "table": "bronze.sf1.part",
+      "rows": 200000,
+      "columns": [
+        "partkey",
+        "name",
+        "mfgr",
+        "brand",
+        "type",
+        "size",
+        "container",
+        "retailprice",
+        "comment"
+      ],
+      "ddl": "CREATE TABLE bronze.sf1.part (\n   partkey bigint,\n   name varchar,\n   mfgr varchar,\n   brand varchar,\n   type varchar,\n   size integer,\n   container varchar,\n   retailprice double,\n   comment varchar\n)\nWITH (\n   format = 'PARQUET',\n   format_version = 2,\n   location = 's3://bronze/part-05387a7245a5469dbc445dcd5e3f7262',\n   max_commit_retry = 4\n)",
+      "files": [
+        [
+          "PARQUET",
+          1,
+          4318119
+        ]
+      ],
+      "compression_codec": "zstd",
+      "format_version": "2"
+    },
+    {
+      "table": "bronze.sf1.partsupp",
+      "rows": 800000,
+      "columns": [
+        "partkey",
+        "suppkey",
+        "availqty",
+        "supplycost",
+        "comment"
+      ],
+      "ddl": "CREATE TABLE bronze.sf1.partsupp (\n   partkey bigint,\n   suppkey bigint,\n   availqty integer,\n   supplycost double,\n   comment varchar\n)\nWITH (\n   format = 'PARQUET',\n   format_version = 2,\n   location = 's3://bronze/partsupp-0d180274381f469f8025a1affe905d7d',\n   max_commit_retry = 4\n)",
+      "files": [
+        [
+          "PARQUET",
+          2,
+          29203978
+        ]
+      ],
+      "compression_codec": "zstd",
+      "format_version": "2"
+    },
+    {
+      "table": "bronze.sf1.supplier",
+      "rows": 10000,
+      "columns": [
+        "suppkey",
+        "name",
+        "address",
+        "nationkey",
+        "phone",
+        "acctbal",
+        "comment"
+      ],
+      "ddl": "CREATE TABLE bronze.sf1.supplier (\n   suppkey bigint,\n   name varchar,\n   address varchar,\n   nationkey bigint,\n   phone varchar,\n   acctbal double,\n   comment varchar\n)\nWITH (\n   format = 'PARQUET',\n   format_version = 2,\n   location = 's3://bronze/supplier-43cd4f902b574505aa0822bf9903d15e',\n   max_commit_retry = 4\n)",
+      "files": [
+        [
+          "PARQUET",
+          1,
+          533907
+        ]
+      ],
+      "compression_codec": "zstd",
+      "format_version": "2"
+    },
+    {
+      "table": "silver.sf1.part_supplier_clean",
+      "rows": 118274,
+      "columns": [
+        "partkey",
+        "suppkey",
+        "brand",
+        "type",
+        "size"
+      ],
+      "ddl": "CREATE TABLE silver.sf1.part_supplier_clean (\n   partkey bigint,\n   suppkey bigint,\n   brand varchar,\n   type varchar,\n   size integer\n)\nWITH (\n   format = 'PARQUET',\n   format_version = 2,\n   location = 's3://silver/part_supplier_clean-b1e93ff7ba5b41a0bf338beb7f7a8758',\n   max_commit_retry = 4\n)",
+      "files": [
+        [
+          "PARQUET",
+          1,
+          561751
+        ]
+      ],
+      "compression_codec": "zstd",
+      "format_version": "2"
+    },
+    {
+      "table": "gold.sf1.q16_supplier_counts",
+      "rows": 18314,
+      "columns": [
+        "brand",
+        "type",
+        "size",
+        "supplier_cnt"
+      ],
+      "ddl": "CREATE TABLE gold.sf1.q16_supplier_counts (\n   brand varchar,\n   type varchar,\n   size integer,\n   supplier_cnt bigint\n)\nWITH (\n   format = 'PARQUET',\n   format_version = 2,\n   location = 's3://gold/q16_supplier_counts-3bb256cb641142259711e1f6c8966fb1',\n   max_commit_retry = 4\n)",
+      "files": [
+        [
+          "PARQUET",
+          1,
+          41042
+        ]
+      ],
+      "compression_codec": "zstd",
+      "format_version": "2"
+    }
+  ],
+  "quality": {
+    "null_keys": 0,
+    "duplicated_pairs": 0,
+    "broken_references": 0
+  },
+  "snapshot": {
+    "table": "silver.sf1.snapshot_demo_20261008205147",
+    "snapshot_id": 4739065683946159628,
+    "current_rows": 20,
+    "null_source_note_rows": 20,
+    "historical_rows": 20,
+    "columns": [
+      "partkey",
+      "suppkey",
+      "brand",
+      "type",
+      "size",
+      "source_note"
+    ]
+  },
+  "full_results": {
+    "expected_rows": 18314,
+    "gold_rows": 18314,
+    "spark_rows": 18314,
+    "gold_equals_expected": true,
+    "spark_equals_expected": true,
+    "current_gold_equals_expected": true,
+    "fresh_source_equals_saved_expected": true
+  },
+  "benchmark": {
+    "GZIP": [
+      {
+        "table": "bronze.sf1_gzip.part",
+        "data_files": 1,
+        "rows_in_files": 200000,
+        "active_data_bytes": 4388840,
+        "compression_codec": "gzip"
+      },
+      {
+        "table": "bronze.sf1_gzip.partsupp",
+        "data_files": 2,
+        "rows_in_files": 800000,
+        "active_data_bytes": 25970486,
+        "compression_codec": "gzip"
+      },
+      {
+        "table": "bronze.sf1_gzip.supplier",
+        "data_files": 1,
+        "rows_in_files": 10000,
+        "active_data_bytes": 518471,
+        "compression_codec": "gzip"
+      }
+    ],
+    "ZSTD": [
+      {
+        "table": "bronze.sf1_zstd.part",
+        "data_files": 1,
+        "rows_in_files": 200000,
+        "active_data_bytes": 4320340,
+        "compression_codec": "zstd"
+      },
+      {
+        "table": "bronze.sf1_zstd.partsupp",
+        "data_files": 2,
+        "rows_in_files": 800000,
+        "active_data_bytes": 29196435,
+        "compression_codec": "zstd"
+      },
+      {
+        "table": "bronze.sf1_zstd.supplier",
+        "data_files": 1,
+        "rows_in_files": 10000,
+        "active_data_bytes": 533729,
+        "compression_codec": "zstd"
+      }
+    ]
+  }
+}
